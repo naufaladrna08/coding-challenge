@@ -32,7 +32,6 @@ const OrderList = ({}) => {
   const handleView = async (data) => {
     setShowViewOrder(true)
     setCurrentViewedOrder(data)
-    console.log(data)
   }
 
   const handleUpdate = async (data) => {
@@ -88,9 +87,9 @@ const OrderList = ({}) => {
               <td> {each.pickup_location} </td>
               <td> {each.dropoff_location} </td>
               <td>
-                <Button variant="primary" size='sm' onClick={ (e) => handleView(each) }> View Data </Button>
-                <Button variant="primary" size='sm' onClick={ (e) => handleUpdate(each) }> Update </Button> 
-                <Button variant="danger"  size='sm' onClick={ (e) => handleDelete(each.order_id) }> Delete </Button>
+                <Button variant="primary" size='sm' className='mx-1' onClick={ (e) => handleView(each) }> View Data </Button>
+                <Button variant="primary" size='sm' className='mx-1' onClick={ (e) => handleUpdate(each) }> Update </Button> 
+                <Button variant="danger"  size='sm' className='mx-1' onClick={ (e) => handleDelete(each.order_id) }> Delete </Button>
               </td>
             </tr>
           ))) : (
