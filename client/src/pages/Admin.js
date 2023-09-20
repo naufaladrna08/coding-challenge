@@ -25,7 +25,7 @@ const Admin = () => {
 
         <Modal show={showCreateModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title> Create Data </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <CarForm type={ 'create' } />
