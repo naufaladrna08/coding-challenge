@@ -10,9 +10,14 @@ const CarList = ({}) => {
 
   const [updateCarData, setUpdateCarData] = useState({})
   const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const [showViewCar, setShowViewCar] = useState(false)
+  const [currentViewedCar, setCurrentVieweCar] = useState({})
 
-  const handleClose = () => setShowUpdateModal(false);
-  const handleShow = () => setShowUpdateModal(true);
+  const handleClose = () => setShowUpdateModal(false)
+  const handleShow = () => setShowUpdateModal(true)
+  const handleCloseView = () => setShowViewCar(false)
+
+  const backendURL = axios.defaults.baseURL
 
   const getCars = async () => {
     try {
@@ -22,6 +27,11 @@ const CarList = ({}) => {
     } catch (err) {
       console.error(err.message)
     }
+  }
+
+  const handleView = async (data) => {
+    setShowViewCar(true)
+    setCurrentVieweCar(data)
   }
 
   const handleUpdate = async (data) => {
@@ -69,8 +79,9 @@ const CarList = ({}) => {
               <td> {each.day_rate} </td>
               <td> {each.month_rate} </td>
               <td>
-                <Button variant="primary" onClick={ (e) => handleUpdate(each) }> Update </Button>
-                <Button variant="danger" className="mx-2" onClick={ (e) => handleDelete(each.car_id) }> Delete </Button>
+                <Button variant="primary" className="mx-1" onClick={ (e) => handleView(each) }> View </Button>
+                <Button variant="primary" className="mx-1" onClick={ (e) => handleUpdate(each) }> Update </Button>
+                <Button variant="danger"  className="mx-1" onClick={ (e) => handleDelete(each.car_id) }> Delete </Button>
               </td>
             </tr>
           ))) : (
@@ -83,10 +94,37 @@ const CarList = ({}) => {
 
       <Modal show={ showUpdateModal } onHide={ handleClose }>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title> Update Data </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CarForm type={ 'update' } data={ updateCarData } />
+        </Modal.Body>
+      </Modal>
+
+      <Modal size='lg' show={ showViewCar } onHide={ handleCloseView }>
+        <Modal.Header closeButton>
+          <Modal.Title> View Data </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <div className="row">
+            <div className="col-md-6">
+              <div className="row mb-2">
+                <div className="col-md-4"> Car Name </div>
+                <div className="col-md-8"> { currentViewedCar.car_name } </div>
+              </div>
+              <div className="row mb-2">
+                <div className="col-md-4"> Day Rate </div>
+                <div className="col-md-8"> ${ currentViewedCar.day_rate } </div>
+              </div>
+              <div className="row mb-2">
+                <div className="col-md-4"> Month Rate </div>
+                <div className="col-md-8"> ${ currentViewedCar.month_rate } </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <img src={ backendURL + "/" + currentViewedCar.image } className="img-fluid" />
+            </div>
+          </div>
         </Modal.Body>
       </Modal>
     </>
