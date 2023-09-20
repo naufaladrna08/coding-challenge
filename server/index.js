@@ -105,14 +105,20 @@ app.put('/cars/:id', upload.single('image'), async (req, res) => {
 app.delete('/cars/:id', async (req, res) => {
   try {
     const { id } = req.params
-    const deleteCar = await pool.query(
-      'DELETE FROM cars WHERE car_id = $1', 
+
+    // delete car and all orders related to it
+    await pool.query(
+      'DELETE FROM cars WHERE car_id = $1',
+      [id]
+    )
+
+    await pool.query(
+      'DELETE FROM orders WHERE car_id = $1',
       [id]
     )
     
     res.status(200).json({
       message: 'Car has been deleted!',
-      data: deleteCar.rows[0]
     })
   } catch (err) {
     console.error(err.message)
