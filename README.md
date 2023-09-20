@@ -3,7 +3,7 @@
 Penjelasan:
 - ./server: Tempat expressjs backend
 - ./client: Tempat reactjs backend
-- ./server/database.sql: File SQL untuk create table
+- ./database.sql: File SQL untuk create table
 - ./Postman_collection.json: File postman collection untuk testing API 
 
 Setup:
