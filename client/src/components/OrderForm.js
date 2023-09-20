@@ -27,6 +27,10 @@ const OrderForm = ({ type, data }) => {
     try {
       const res = await axios.get('/unordercars')
 
+      if (res.data.length === 0) {
+        setError('No cars available')
+      }
+
       setCars(res.data)
     } catch (err) {
       console.error(err.message)
@@ -59,6 +63,11 @@ const OrderForm = ({ type, data }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // form validation
+    if (!formData.car_id || !formData.order_date || !formData.pickup_date || !formData.dropoff_date || !formData.pickup_location || !formData.dropoff_location) {
+      setError('Please fill all fields')
+    }
 
     switch (type) {
       case 'create':
@@ -114,7 +123,12 @@ const OrderForm = ({ type, data }) => {
 
       { error && <p className="text-danger"> { error } </p> }
 
-      <Button className="float-end" variant="primary" type="submit">
+      <Button 
+        className="float-end" 
+        variant="primary" 
+        type="submit"
+        disabled={ cars.length === 0 }
+      >
         Submit
       </Button>
     </Form>
