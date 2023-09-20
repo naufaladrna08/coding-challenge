@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, InputGroup } from 'react-bootstrap'
 import { useState } from 'react'
 
 const CarForm = ({ type, data }) => {
@@ -93,24 +93,34 @@ const CarForm = ({ type, data }) => {
       <Form.Group className="mb-3">
         <Form.Label> Car Name </Form.Label>
         <Form.Control type="text" placeholder="Avanza" value={ formData.car_name } onChange={e => setFormData({...formData, car_name: e.target.value})} />
-      </Form.Group>
+      </Form.Group>    
       <Form.Group className="mb-3">
         <Form.Label> Day Rate </Form.Label>
-        <Form.Control type="number" placeholder="2.99" value={ formData.day_rate } onChange={e => setFormData({...formData, day_rate: e.target.value})} />
+        <InputGroup className="mb-3">
+          <InputGroup.Text>$</InputGroup.Text>
+          <Form.Control type="number" placeholder="2.99" value={ formData.day_rate } onChange={e => setFormData({...formData, day_rate: e.target.value})} />
+        </InputGroup>
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label> Month Rate </Form.Label>
-        <Form.Control type="number" placeholder="30.99" value={ formData.month_rate } onChange={e => setFormData({...formData, month_rate: e.target.value})} />
+        <InputGroup className="mb-3">
+          <InputGroup.Text>$</InputGroup.Text>
+          <Form.Control type="number" placeholder="30.99" value={ formData.month_rate } onChange={e => setFormData({...formData, month_rate: e.target.value})} />
+        </InputGroup>
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label> Image </Form.Label>
-        <Form.Control type="file" onChange={ handleFileChanged } />
+        <Form.Control type="file" onChange={ handleFileChanged } accept="image/png, image/gif, image/jpeg" />
       </Form.Group>
+      
+      {/* Preview Image */}
+      { file && <img src={ URL.createObjectURL(file) } alt="preview" className="img-fluid mb-3" /> }
 
+      {/* Display error message */}
       { error && <p className="text-danger"> { error } </p> }
 
       <Button className="float-end" variant="primary" type="submit">
-        Submit
+        Create
       </Button>
     </Form>
   )
