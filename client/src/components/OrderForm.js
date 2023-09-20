@@ -13,6 +13,7 @@ const OrderForm = ({ type, data }) => {
   const [formData, setFormData] = useState({
     order_id: type === 'update' ? data.order_id : 0,
     car_id: type === 'update' ? data.car_id : 0,
+    car_name: type === 'update' ? data.car_name : 0,
     order_date: type === 'update' ? toDateInput(data.order_date) : toDateInput(new Date()),
     pickup_date: type === 'update' ? toDateInput(data.pickup_date) : toDateInput(new Date()),
     dropoff_date: type === 'update' ? toDateInput(data.dropoff_date) : toDateInput(new Date()),
@@ -27,7 +28,7 @@ const OrderForm = ({ type, data }) => {
     try {
       const res = await axios.get('/unordercars')
 
-      if (res.data.length === 0) {
+      if (res.data.length === 0 && type === 'create') {
         setError('No cars available')
       }
 
@@ -91,7 +92,13 @@ const OrderForm = ({ type, data }) => {
       <Form.Group className="mb-3">
         <Form.Label> Car Name </Form.Label>
         <Form.Select onChange={ (e) => setFormData({ ...formData, car_id: e.target.value }) }>
-          <option value=""> Select Car </option>
+          {
+            type == 'update' ? (
+              <option value={ formData.car_id }> { formData.car_name } </option>
+            ) : (
+              <option value={ 0 }> Choose Car </option>
+            )
+          }
           {
             cars.map(each => (
               <option key={ each.car_id } value={ each.car_id }> { each.car_name } </option>
@@ -126,8 +133,7 @@ const OrderForm = ({ type, data }) => {
       <Button 
         className="float-end" 
         variant="primary" 
-        type="submit"
-        disabled={ cars.length === 0 }
+        type="Update"
       >
         Submit
       </Button>
