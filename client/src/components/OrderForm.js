@@ -37,7 +37,7 @@ const OrderForm = ({ type, data }) => {
     e.preventDefault()
 
     try {
-      const res = await axios.post('/orders', formData)
+      await axios.post('/orders', formData)
       window.location.reload()
     } catch (err) {
       console.error(err.message)
@@ -49,7 +49,7 @@ const OrderForm = ({ type, data }) => {
     e.preventDefault()
 
     try {
-      const res = await axios.put(`/orders/${formData.order_id}`, formData)
+      await axios.put(`/orders/${formData.order_id}`, formData)
       window.location.reload()
     } catch (err) {
       console.error(err.message)
