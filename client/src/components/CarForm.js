@@ -17,7 +17,7 @@ const CarForm = ({ type, data }) => {
     setFiles(newFile)
   }
 
-  /**
+  /*
    * Action to create data
    */
   const handleCreate = async (form) => {
@@ -31,7 +31,7 @@ const CarForm = ({ type, data }) => {
     window.location.reload()
   }
 
-  /**
+  /*
    * Action to update data
    */
   const handleUpdate = async (form) => {
