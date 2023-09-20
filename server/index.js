@@ -12,7 +12,10 @@ app.use(express.json())
 app.use(express.static('uploads'))
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage })
+
+/* Serve static files from the "uploads" folder */
+app.use('/uploads', express.static('uploads'))
 
 // CREATE
 app.post('/cars', upload.single('image'), async (req, res) => {
@@ -143,7 +146,7 @@ app.post('/orders', async (req, res) => {
 app.get('/orders', async (req, res) => {
   try {
     const allOrders = await pool.query(
-      'SELECT orders.order_id, cars.car_name, orders.order_date, orders.pickup_date, orders.dropoff_date, orders.pickup_location, orders.dropoff_location FROM orders INNER JOIN cars ON orders.car_id = cars.car_id'
+      'SELECT orders.order_id, cars.car_name, cars.image , orders.order_date, orders.pickup_date, orders.dropoff_date, orders.pickup_location, orders.dropoff_location FROM orders INNER JOIN cars ON orders.car_id = cars.car_id'
     )
 
     res.status(200).json(allOrders.rows)
